@@ -1,0 +1,16 @@
+{
+  "name": "fswpeg",
+  "version": "1.0.0",
+  "description": "Parser Generator for FSW",
+  "main": "index.js",
+  "dependencies": {
+    "pegjs": "^0.10.0"
+  },
+  "devDependencies": {},
+ 
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Jonathan Duncan",
+  "license": "ISC"
+}
