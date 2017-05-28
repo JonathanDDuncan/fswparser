@@ -3,6 +3,7 @@ var assert = chai.assert;
 
 var parserplainsign = peg.generate(fswpeg.plainsign);
 var parsersign = peg.generate(fswpeg.sign);
+var parserdocument = peg.generate(fswpeg.document);
 
 var parsersorting = peg.generate(fswpeg.sorting);
 var parserstyling = peg.generate(fswpeg.styling);
@@ -264,6 +265,162 @@ describe('FSW', function () {
 
                 ,
                 JSON.stringify(parsersign.parse("AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468-CP05G_blue_D_red,green_-D05_red,green_Z06,2.3,480x490"), null, 2));
+        });
+
+    });
+
+     describe('Document', function () {
+         it('should return document', function () {
+            assert.equal(
+                `[
+  {
+    "sorting": [
+      "S18701",
+      "S1870a",
+      "S2e734",
+      "S20500"
+    ],
+    "sign": {
+      "lane": "M",
+      "coord": {
+        "x": 518,
+        "y": 533
+      },
+      "symbols": [
+        {
+          "key": "S1870a",
+          "coord": {
+            "x": 489,
+            "y": 515
+          }
+        },
+        {
+          "key": "S18701",
+          "coord": {
+            "x": 482,
+            "y": 490
+          }
+        },
+        {
+          "key": "S20500",
+          "coord": {
+            "x": 508,
+            "y": 496
+          }
+        },
+        {
+          "key": "S2e734",
+          "coord": {
+            "x": 500,
+            "y": 468
+          }
+        }
+      ]
+    },
+    "styling": {
+      "colorize": true,
+      "padding": 5,
+      "backgroundcolor": "blue",
+      "signcolors": {
+        "fore": "red",
+        "back": "green"
+      },
+      "symbolscolors": [
+        {
+          "index": 5,
+          "fore": "red",
+          "back": "green"
+        }
+      ],
+      "signzoom": null,
+      "symbolszoom": [
+        {
+          "index": 6,
+          "zoom": 2.3,
+          "offset": {
+            "x": 480,
+            "y": 490
+          }
+        }
+      ]
+    }
+  },
+  {
+    "sorting": [
+      "S18701",
+      "S1870a",
+      "S2e734",
+      "S20500"
+    ],
+    "sign": {
+      "lane": "M",
+      "coord": {
+        "x": 518,
+        "y": 533
+      },
+      "symbols": [
+        {
+          "key": "S1870a",
+          "coord": {
+            "x": 489,
+            "y": 515
+          }
+        },
+        {
+          "key": "S18701",
+          "coord": {
+            "x": 482,
+            "y": 490
+          }
+        },
+        {
+          "key": "S20500",
+          "coord": {
+            "x": 508,
+            "y": 496
+          }
+        },
+        {
+          "key": "S2e734",
+          "coord": {
+            "x": 500,
+            "y": 468
+          }
+        }
+      ]
+    },
+    "styling": {
+      "colorize": true,
+      "padding": 5,
+      "backgroundcolor": "blue",
+      "signcolors": {
+        "fore": "red",
+        "back": "green"
+      },
+      "symbolscolors": [
+        {
+          "index": 5,
+          "fore": "red",
+          "back": "green"
+        }
+      ],
+      "signzoom": null,
+      "symbolszoom": [
+        {
+          "index": 6,
+          "zoom": 2.3,
+          "offset": {
+            "x": 480,
+            "y": 490
+          }
+        }
+      ]
+    }
+  }
+]`
+
+                ,
+                JSON.stringify(parserdocument.parse("AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468-CP05G_blue_D_red,green_-D05_red,green_Z06,2.3,480x490 AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468-CP05G_blue_D_red,green_-D05_red,green_Z06,2.3,480x490"), null, 2));
         });
 
     });

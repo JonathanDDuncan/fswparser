@@ -157,18 +157,12 @@ SymbolIndex = digits: (digit digit)
 `+ styling ;
 
  var document =
-     `Expression
-  =  SignSortedStyled
+     `
+Document = SignSpace *
+     
 
-SignSpacer =
-SignSortedStyled Space
-
-Document = SignSpacer *
-
-
-SignSortedStyled =  sort:Sorting ?  sign:UnSortedSign styling:Styling
-	{ return  { sorting: sort, sign: sign,   styling : styling } }
-
+SignSpace = sign:SignSortedStyled Space
+    { return  sign }
 
 `+ sign ;
 
