@@ -122,7 +122,7 @@ describe('FSW', function () {
 });
 
 describe('Styling', function () {
-     describe('Colorize', function () {
+    describe('Colorize', function () {
         it('should return colorize true', function () {
             assert.equal(
                 `{
@@ -179,34 +179,186 @@ describe('Styling', function () {
 }`,
                 JSON.stringify(parserstyling.parse("-P99"), null, 2));
         });
- 
+
     });
-        describe('Background', function () {
-        it('should return ', function () {
+    describe('Background', function () {
+        it('should return background blue ', function () {
             assert.equal(
-                ``,
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": "blue",
+  "colors": null,
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
                 JSON.stringify(parserstyling.parse("-G_blue_"), null, 2));
         });
 
-        it('should return ', function () {
+        it('should return background f441ee', function () {
             assert.equal(
-                `[]`,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": "f441ee",
+  "colors": null,
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-G_f441ee_"), null, 2));
         });
     });
     describe('Detail Color Sign', function () {
-        it('should return ', function () {
+        it('should return colors fore red', function () {
             assert.equal(
-                ``,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": {
+    "fore": "red",
+    "back": null
+  },
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-D_red_"), null, 2));
         });
 
-        it('should return ', function () {
+        it('should return colors fore f441ee ', function () {
             assert.equal(
-                `[]`,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": {
+    "fore": "f441ee",
+    "back": null
+  },
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-D_f441ee_"), null, 2));
         });
-     describe('Detail Color Symbols', function () {
+         it('should return colors fore red back green', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": {
+    "fore": "red",
+    "back": "green"
+  },
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-D_red,green_"), null, 2));
+        });
+
+        it('should return colors fore f441ee back f44242', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": {
+    "fore": "f441ee",
+    "back": "f44242"
+  },
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-D_f441ee,f44242_"), null, 2));
+        });
+    });
+    describe('Detail Color Symbols', function () {
+          it('should return index 3 fore blue', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": null,
+  "symbolscolors": [
+    {
+      "index": 3,
+      "fore": "blue",
+      "back": null
+    }
+  ],
+  "signzoom": null,
+  "symbolszoom": []
+}`,
+                JSON.stringify(parserstyling.parse("--D03_blue_"), null, 2));
+        });
+
+        it('should return index 3 fore f441ee', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": null,
+  "symbolscolors": [
+    {
+      "index": 3,
+      "fore": "f441ee",
+      "back": null
+    }
+  ],
+  "signzoom": null,
+  "symbolszoom": []
+}`,
+                JSON.stringify(parserstyling.parse("--D03_f441ee_"), null, 2));
+        });
+        it('should return index 3 fore blue back green ', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": null,
+  "symbolscolors": [
+    {
+      "index": 3,
+      "fore": "blue",
+      "back": "green"
+    }
+  ],
+  "signzoom": null,
+  "symbolszoom": []
+}`,
+                JSON.stringify(parserstyling.parse("--D03_blue,green_"), null, 2));
+        });
+
+        it('should return index 3 fore f441ee back f44242', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": null,
+  "symbolscolors": [
+    {
+      "index": 3,
+      "fore": "f441ee",
+      "back": "f44242"
+    }
+  ],
+  "signzoom": null,
+  "symbolszoom": []
+}`,
+                JSON.stringify(parserstyling.parse("--D03_f441ee,f44242_"), null, 2));
+        });
+    });
+    describe('Zoom level Sign', function () {
         it('should return ', function () {
             assert.equal(
                 ``,
@@ -219,7 +371,7 @@ describe('Styling', function () {
                 JSON.stringify(parserstyling.parse(""), null, 2));
         });
     });
-        describe('Zoom level Sign', function () {
+    describe('Zoom level Symbols', function () {
         it('should return ', function () {
             assert.equal(
                 ``,
@@ -232,21 +384,8 @@ describe('Styling', function () {
                 JSON.stringify(parserstyling.parse(""), null, 2));
         });
     });
-     describe('Zoom level Symbols', function () {
-        it('should return ', function () {
-            assert.equal(
-                ``,
-                JSON.stringify(parserstyling.parse(""), null, 2));
-        });
+});
 
-        it('should return ', function () {
-            assert.equal(
-                `[]`,
-                JSON.stringify(parserstyling.parse(""), null, 2));
-        });
-  });
-});
-});
 var parserparts = peg.generate(fswpeg.parts);
 
 describe('Parts', function () {
