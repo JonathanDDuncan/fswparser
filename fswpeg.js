@@ -72,23 +72,21 @@ Sorting = "A" symbols: Symbol *
 
 var styling = 
 `
-Styling = symbols: SymbolsStylings  ? sign:SignStylings ?
-	{ return { colorize:sign ? sign.colorize : false ,
-        padding:sign ? sign.padding : null ,
-        backgroundcolor:sign ? sign.backgroundcolor : null ,
-        colors : sign ? sign.colors : null,
+Styling =   sign:SignStylings ? 
+	
+
+SignStylings = "-" colorize:Colorize ? padding:Padding ? backgroundcolor:BackGroundColor ? colors:SignColors ? signzoom:SignZoom ? symbols: SymbolsStylings  ?
+    { return { colorize:colorize ? colorize : false ,
+        padding:padding,
+        backgroundcolor:backgroundcolor,
+        signcolors : colors,
         symbolscolors : symbols ? symbols.symbolscolors :null,
-        signzoom :  sign ? sign.signzoom : null,
+        signzoom :  signzoom,
         symbolszoom: symbols ? symbols.symbolszoom : null}}
 
-SignStylings = SignStylingPrefix colorize:Colorize ? padding:Padding ? backgroundcolor:BackGroundColor ? colors:SignColors ? signzoom:SignZoom ?
-    { return { colorize: colorize ? colorize : false    , 
-        padding: padding, 
-        backgroundcolor: backgroundcolor, 
-        colors : colors, 
-        signzoom : signzoom}}
+   
 
-SymbolsStylings = SymbolStylingPrefix  symbolscolors:SymbolsColors ? symbolszoom:SymbolsZoom ?
+SymbolsStylings =  "-" symbolscolors:SymbolsColors ? symbolszoom:SymbolsZoom ?
    { return {   symbolscolors : symbolscolors, 
        symbolszoom: symbolszoom}}
 
@@ -120,9 +118,12 @@ SymbolsZoom =    symbolzooms:(SymbolZoom *)
 	{return symbolzooms}
 
 SymbolZoom =
-ZoomPrefix index:SymbolIndex "," zoom:Number
-	{return {index : index, zoom: zoom}}
+ZoomPrefix index:SymbolIndex "," zoom:Number offset:SymbolZoomOffset ?
+	{return {index : index, zoom: zoom, offset : offset }}
 
+SymbolZoomOffset =
+    "," coordinate:Coordinate
+    	{ return   coordinate;  }
 ColorPrefix = "D"
 SymbolsColors =   colors: SymbolColors *
 	{ return   colors;  }
@@ -140,11 +141,7 @@ TwoColors =
 SymbolColors = ColorPrefix index:SymbolIndex color:SymbolColor
 	{ return  {index: index, fore: color.fore,back: color.back};  }
 
-SignStylingPrefix
-	= "-"
 
-SymbolStylingPrefix
-	= "--"
 PairPrefix = "_"
 PairSuffix  = "_"
 SymbolIndex = digits: (digit digit)

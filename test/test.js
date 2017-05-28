@@ -129,7 +129,7 @@ describe('Styling', function () {
   "colorize": true,
   "padding": null,
   "backgroundcolor": null,
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": null,
   "signzoom": null,
   "symbolszoom": null
@@ -143,7 +143,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": null,
   "signzoom": null,
   "symbolszoom": null
@@ -158,7 +158,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": 1,
   "backgroundcolor": null,
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": null,
   "signzoom": null,
   "symbolszoom": null
@@ -172,7 +172,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": 99,
   "backgroundcolor": null,
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": null,
   "signzoom": null,
   "symbolszoom": null
@@ -188,7 +188,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": "blue",
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": null,
   "signzoom": null,
   "symbolszoom": null
@@ -202,7 +202,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": "f441ee",
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": null,
   "signzoom": null,
   "symbolszoom": null
@@ -217,7 +217,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": {
+  "signcolors": {
     "fore": "red",
     "back": null
   },
@@ -234,7 +234,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": {
+  "signcolors": {
     "fore": "f441ee",
     "back": null
   },
@@ -244,13 +244,13 @@ describe('Styling', function () {
 }`,
                 JSON.stringify(parserstyling.parse("-D_f441ee_"), null, 2));
         });
-         it('should return colors fore red back green', function () {
+        it('should return colors fore red back green', function () {
             assert.equal(
                 `{
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": {
+  "signcolors": {
     "fore": "red",
     "back": "green"
   },
@@ -267,7 +267,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": {
+  "signcolors": {
     "fore": "f441ee",
     "back": "f44242"
   },
@@ -278,14 +278,16 @@ describe('Styling', function () {
                 JSON.stringify(parserstyling.parse("-D_f441ee,f44242_"), null, 2));
         });
     });
+
+
     describe('Detail Color Symbols', function () {
-          it('should return index 3 fore blue', function () {
+        it('should return index 3 fore blue', function () {
             assert.equal(
                 `{
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": [
     {
       "index": 3,
@@ -305,7 +307,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": [
     {
       "index": 3,
@@ -324,7 +326,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": [
     {
       "index": 3,
@@ -344,7 +346,7 @@ describe('Styling', function () {
   "colorize": false,
   "padding": null,
   "backgroundcolor": null,
-  "colors": null,
+  "signcolors": null,
   "symbolscolors": [
     {
       "index": 3,
@@ -358,30 +360,164 @@ describe('Styling', function () {
                 JSON.stringify(parserstyling.parse("--D03_f441ee,f44242_"), null, 2));
         });
     });
-    describe('Zoom level Sign', function () {
-        it('should return ', function () {
+    describe('Zoom Sign', function () {
+        it('should return signzoom 2.3', function () {
             assert.equal(
-                ``,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "signcolors": null,
+  "symbolscolors": null,
+  "signzoom": 2.3,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-Z2.3"), null, 2));
         });
 
-        it('should return ', function () {
+        it('should return signzoom 2', function () {
             assert.equal(
-                `[]`,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "signcolors": null,
+  "symbolscolors": null,
+  "signzoom": 2,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-Z2"), null, 2));
+        });
+
+
+    });
+    describe('Zoom Symbols', function () {
+        it('should return symbolszoom index 2 zoom 2.3 ', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "signcolors": null,
+  "symbolscolors": [],
+  "signzoom": null,
+  "symbolszoom": [
+    {
+      "index": 2,
+      "zoom": 2.3,
+      "offset": null
+    }
+  ]
+}`,
+                JSON.stringify(parserstyling.parse("--Z02,2.3"), null, 2));
+        });
+
+        it('should return symbolszoom index 2 zoom 2.3 offset x 480 y 490 ', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "signcolors": null,
+  "symbolscolors": [],
+  "signzoom": null,
+  "symbolszoom": [
+    {
+      "index": 2,
+      "zoom": 2.3,
+      "offset": {
+        "x": 480,
+        "y": 490
+      }
+    }
+  ]
+}`,
+                JSON.stringify(parserstyling.parse("--Z02,2.3,480x490"), null, 2));
         });
     });
-    describe('Zoom level Symbols', function () {
-        it('should return ', function () {
-            assert.equal(
-                ``,
-                JSON.stringify(parserstyling.parse(""), null, 2));
-        });
 
-        it('should return ', function () {
+    describe('Colorize, Padding, Background, Detail Color Sign, Zoom Sign', function () {
+        it('should return colorize true, padding 5, backgroundcolor blue, signcolors fore red back green', function () {
             assert.equal(
-                `[]`,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": true,
+  "padding": 5,
+  "backgroundcolor": "blue",
+  "signcolors": {
+    "fore": "red",
+    "back": "green"
+  },
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-CP05G_blue_D_red,green_"), null, 2));
+        });
+    });
+
+    
+    describe('Detail Color Symbols, Zoom Symbols', function () {
+        it('should return symbolcolors index 5, fore red, back green, symbolszoom index 6, zoom 2.3, offset x 480, y 490', function () {
+            assert.equal(
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "signcolors": null,
+  "symbolscolors": [
+    {
+      "index": 5,
+      "fore": "red",
+      "back": "green"
+    }
+  ],
+  "signzoom": null,
+  "symbolszoom": [
+    {
+      "index": 6,
+      "zoom": 2.3,
+      "offset": {
+        "x": 480,
+        "y": 490
+      }
+    }
+  ]
+}`,
+                JSON.stringify(parserstyling.parse("--D05_red,green_Z06,2.3,480x490"), null, 2));
+        });
+    });
+
+     describe('Colorize, Padding, Background, Detail Color Sign, Zoom Sign, Detail Color Symbols, Zoom Symbols', function () {
+        it('should return colorize true, padding 5, backgroundcolor blue, signcolors fore red back green, symbolcolors index 5, fore red, back green, symbolszoom index 6, zoom 2.3, offset x 480, y 490', function () {
+            assert.equal(
+                `{
+  "colorize": true,
+  "padding": 5,
+  "backgroundcolor": "blue",
+  "signcolors": {
+    "fore": "red",
+    "back": "green"
+  },
+  "symbolscolors": [
+    {
+      "index": 5,
+      "fore": "red",
+      "back": "green"
+    }
+  ],
+  "signzoom": null,
+  "symbolszoom": [
+    {
+      "index": 6,
+      "zoom": 2.3,
+      "offset": {
+        "x": 480,
+        "y": 490
+      }
+    }
+  ]
+}`,
+                JSON.stringify(parserstyling.parse("-CP05G_blue_D_red,green_-D05_red,green_Z06,2.3,480x490"), null, 2));
         });
     });
 });
