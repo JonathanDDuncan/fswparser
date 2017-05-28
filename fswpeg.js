@@ -1,4 +1,37 @@
-var fswpeg = `Expression
+var fswpeg = function () {
+
+
+var basics =
+`
+Basics = CoordinateSpacer/ digit / hexa / Space 
+
+digit = [0-9]
+hexa = [0-9a-f]
+CoordinateSpacer "coordinatespacer" 
+  = [Xx]
+Space "space"  = " " *
+`;
+
+
+var numbers =
+`
+Numbers = ThreeDigits / Float / Integer 
+
+Number "number" = Float / Integer
+
+Integer "integer"
+  = digit+ { return parseInt(text(), 10); }
+
+Float "float"
+  = digit + ( "." digit +) ? { return parseFloat(text(), 10); }
+
+ThreeDigits "threedigits"
+	 = digit digit digit  { return parseInt(text(), 10); }
+
+` + basics;
+
+ var document =
+     `Expression
   =  Sign
 
 PairPrefix = "_"
@@ -116,28 +149,17 @@ SignPrefix = lane:[BLMR] signcoordinate: Coordinate ?
 	{return { lane: lane, signcoordinate:signcoordinate}}
 
 
-Coordinate = x1:ThreeInts CoordinateSpacer y1:ThreeInts
+Coordinate = x1:ThreeDigits CoordinateSpacer y1:ThreeDigits
   {
 
       return { x: x1, y : y1 };
     }
 
-ThreeInts "threeints"
-	 = digit digit digit  { return parseInt(text(), 10); }
+`+ numbers ;
 
-
-Integer "integer"
-  = digit+ { return parseInt(text(), 10); }
-
-Float "float"
-  = digit + ( "." digit +) ? { return parseFloat(text(), 10); }
-digit = [0-9]
-hexa = [0-9a-f]
-
-
-Number "number" = Float / Integer
-CoordinateSpacer "coordinatespacer" 
-  = [Xx]
-Space "space"  = " " *
-`
- 
+var exports = {};
+exports.document = document;
+exports.basics = basics;
+exports.numbers = numbers;
+return exports;
+}()
