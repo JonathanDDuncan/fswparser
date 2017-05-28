@@ -2,34 +2,47 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Mocha Tests</title>
+    <title>FSW Parser</title>
     <link href="./assets/styles/mocha.css" rel="stylesheet" />
 </head>
 
 <body>
-    <div id="mocha"></div>
+    <a href="test/test.html"> Run Tests</a>
+
+    <H1>Document</H1>
+    <textarea cols="80" rows="10" id="documenttextarea">M600x697S33000476x489S2ff00484x488 M516x490S31430498x500S33e10501x520S33110510x511</textarea>
+    <br/>
+    <button id="parsedocument">Parse Document</button>
+    <pre id="documentresult"></pre>
+
+    <H1>Sign</H1>
+
+    <textarea cols="80" rows="10" id="signtextarea">M600x697S33000476x489S2ff00484x488S30a50495x490S30a40516x490S31430498x500S33e10501x520S33110510x511S36d10481x558S36a10498x538S37601546x560S37609463x560S14c10554x555S20500576x542S21600552x542S22800463x558S2f700562x519S22a00470x636S22e00583x587S23800487x631S24200506x631S24b00534x628S28800468x668S29900491x663S2e300534x665S2ed00568x587S2f100448x542S2f500564x655S36b10463x454S36c00493x447S38500534x443S37e0f440x559S29600511x663S38700476x695--Z01,1.48Z02,1.51Z05,1.21Z06,1.45Z08,1.63Z09,1.45Z10,1.6Z11,1.6Z25,0.79Z28,0.79Z29,0.79Z30,0.79</textarea>
+    <br/>
+    <button id="parsesign">Parse Sign</button>
+
+    <H2>Result:</H2>
+    <pre id="result"></pre>
 
     <script src="./assets/scripts/jquery.min.js"></script>
-    <script src="./assets/scripts/expectindex.js"></script>
-    <script src="./assets/scripts/mocha.js"></script>
-    <script>
-        mocha.setup('bdd')
-    </script>
-    <script src="./assets/scripts/chai.min.js"></script>
+
     <script src="./assets/scripts/peg-0.10.0.min.js"></script>
     <script src="fswpeg.js"></script>
-    <script src="./test/test.js"></script>
-
-
-
-
 
     <script>
-        mocha.checkLeaks();
-        mocha.globals(['jQuery']);
-        mocha.run();
+        $("#parsedocument").click(function () {
+            var parser = peg.generate(fswpeg.document);
+            var text = $("#documenttextarea").val();
+            var parsed = parser.parse(text);
+            $("#result").html(JSON.stringify(parsed, null, 2));
+        });
+        $("#parsesign").click(function () {
+            var parser = peg.generate(fswpeg.sign);
+            var text = $("#signtextarea").val();
+            var parsed = parser.parse(text);
+            $("#result").html(JSON.stringify(parsed, null, 2));
+        });
     </script>
-
 </body>
 
 </html>
