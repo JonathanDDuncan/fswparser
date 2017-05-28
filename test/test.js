@@ -1,125 +1,59 @@
 // var assert = require('assert');
 var assert = chai.assert;
 
-var parser = peg.generate(fswpeg.document);
+var parsersign = peg.generate(fswpeg.sign);
 
-
+var parsersorting = peg.generate(fswpeg.sorting);
 
 describe('FSW', function () {
     describe('Sign', function () {
         it('should return qualified object', function () {
             assert.equal(
                 `{
-  "sorting": null,
-  "sign": {
-    "l": "M",
-    "c": {
-      "x": 518,
-      "y": 533
-    },
-    "styling": {
-      "colorize": null,
-      "padding": null,
-      "backgroundcolor": null,
-      "colors": null,
-      "symbolscolors": null,
-      "signzoom": null,
-      "symbolszoom": null
-    },
-    "symbols": [
-      {
-        "k": "S1870a",
-        "c": {
-          "x": 489,
-          "y": 515
-        }
-      },
-      {
-        "k": "S18701",
-        "c": {
-          "x": 482,
-          "y": 490
-        }
-      },
-      {
-        "k": "S20500",
-        "c": {
-          "x": 508,
-          "y": 496
-        }
-      },
-      {
-        "k": "S2e734",
-        "c": {
-          "x": 500,
-          "y": 468
-        }
+  "l": "M",
+  "c": {
+    "x": 518,
+    "y": 533
+  },
+  "symbols": [
+    {
+      "k": "S1870a",
+      "c": {
+        "x": 489,
+        "y": 515
       }
-    ]
-  }
+    },
+    {
+      "k": "S18701",
+      "c": {
+        "x": 482,
+        "y": 490
+      }
+    },
+    {
+      "k": "S20500",
+      "c": {
+        "x": 508,
+        "y": 496
+      }
+    },
+    {
+      "k": "S2e734",
+      "c": {
+        "x": 500,
+        "y": 468
+      }
+    }
+  ]
 }`
 
                 ,
-                JSON.stringify(parser.parse("M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
+                JSON.stringify(parsersign.parse("M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
         });
-        it('should return qualified object of sign world', function () {
-            assert.equal(
-                `{
-  "sorting": null,
-  "sign": {
-    "l": "M",
-    "c": {
-      "x": 518,
-      "y": 533
-    },
-    "styling": {
-      "colorize": null,
-      "padding": null,
-      "backgroundcolor": null,
-      "colors": null,
-      "symbolscolors": null,
-      "signzoom": null,
-      "symbolszoom": null
-    },
-    "symbols": [
-      {
-        "k": "S1870a",
-        "c": {
-          "x": 489,
-          "y": 515
-        }
-      },
-      {
-        "k": "S18701",
-        "c": {
-          "x": 482,
-          "y": 490
-        }
-      },
-      {
-        "k": "S20500",
-        "c": {
-          "x": 508,
-          "y": 496
-        }
-      },
-      {
-        "k": "S2e734",
-        "c": {
-          "x": 500,
-          "y": 468
-        }
-      }
-    ]
-  }
-}`
 
-                ,
-                JSON.stringify(parser.parse("M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
-        });
     });
     describe('Sorting', function () {
-        it('should return qualified object sorted', function () {
+        it('should return symbol keys in array', function () {
             assert.equal(
                 `{
   "sorting": [
@@ -127,21 +61,25 @@ describe('FSW', function () {
     "S1870a",
     "S2e734",
     "S20500"
+  ]
+}`,
+                JSON.stringify(parsersorting.parse("AS18701S1870aS2e734S20500"), null, 2));
+        });
+
+        it('should return qualified object sorted', function () {
+            assert.equal(
+                `[
+  [
+    "S18701",
+    "S1870a",
+    "S2e734",
+    "S20500"
   ],
-  "sign": {
+  {
     "l": "M",
     "c": {
       "x": 518,
       "y": 533
-    },
-    "styling": {
-      "colorize": null,
-      "padding": null,
-      "backgroundcolor": null,
-      "colors": null,
-      "symbolscolors": null,
-      "signzoom": null,
-      "symbolszoom": null
     },
     "symbols": [
       {
@@ -174,19 +112,61 @@ describe('FSW', function () {
       }
     ]
   }
-}`
+]`
 
                 ,
-                JSON.stringify(parser.parse("AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
+                JSON.stringify(parsersorting.parse("AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
         });
     });
 });
 
 
+var parserparts = peg.generate(fswpeg.parts);
+
+describe('Parts', function () {
+    describe('Coordinate', function () {
+        it('should return coordinate {"x":518,"y":533}', function () {
+            assert.equal('{"x":518,"y":533}', JSON.stringify(parserparts.parse("518x533")));
+        });
+        it('should return coordinate {"x":500,"y":500}', function () {
+            assert.equal('{"x":500,"y":500}', JSON.stringify(parserparts.parse("500x500")));
+        });
+        it('should return coordinate {"x":0,"y":0}', function () {
+            assert.equal('{"x":0,"y":0}', JSON.stringify(parserparts.parse("000X000")));
+        });
+    });
+    describe('Symbol', function () {
+        it('should return key S1870a', function () {
+            assert.equal('S1870a', parserparts.parse("S1870a"));
+        });
+        it('should return key S18701', function () {
+            assert.equal('S18701', parserparts.parse("S18701"));
+        });
+        it('should return key S2e734', function () {
+            assert.equal('S2e734', parserparts.parse("S2e734"));
+        });
+    });
+    describe('RGB', function () {
+        it('should return rbg color f44242', function () {
+            assert.equal('f44242', parserparts.parse("f44242"));
+        });
+        it('should return rbg color f441ee', function () {
+            assert.equal('f441ee', parserparts.parse("f441ee"));
+        });
+    });
+    describe('Colortext', function () {
+        it('should return rbg color blue', function () {
+            assert.equal('blue', parserparts.parse("blue"));
+        });
+        it('should return rbg color green', function () {
+            assert.equal('green', parserparts.parse("green"));
+        });
+    });
+});
 
 var parserbasics = peg.generate(fswpeg.basics);
 
-describe('Paser Basic', function () {
+describe('Parser Basic', function () {
     describe('spaces', function () {
         it('should return spaces', function () {
             assert.equal('[" "]', JSON.stringify(parserbasics.parse(" ")));

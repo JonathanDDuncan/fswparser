@@ -30,6 +30,46 @@ ThreeDigits "threedigits"
 
 ` + basics;
 
+var parts = 
+     ` Parts = Coordinate / Symbol / RGB / ColorText
+Symbol =
+	result: "S"[123]hexa hexa[0-5]hexa
+   {return text()}
+
+Coordinate = x1:ThreeDigits CoordinateSpacer y1:ThreeDigits
+  {return { x: x1, y : y1 };}
+
+  
+RGB = hexa hexa hexa hexa hexa hexa {return text()}
+ColorText =[a-wyzA-Z]+ {return text()}
+
+          ` + numbers;
+
+var sign = 
+`
+UnSortedSign = prefix:SignPrefix symbols:SymbolCoordinate * 
+	{ return  { l: prefix.lane,
+    c: prefix.signcoordinate,
+    symbols: symbols } }
+
+SymbolCoordinate = symb:Symbol coord:Coordinate
+	{ return { k: symb, c: coord } }
+       
+SignPrefix = lane:[BLMR] signcoordinate: Coordinate ?
+	{return { lane: lane, signcoordinate:signcoordinate}}
+          ` + parts;
+
+var sorting = 
+`
+SortedSign =   sign1:(sort:Sorting ?  sign:UnSortedSign) / sortonly:Sorting
+    {   if (sortonly )  return  { sorting: sortonly  }
+        else
+        return  { sorting: sign1.sort, sign: sign1.sign } }
+    
+Sorting = "A" symbols: Symbol *
+	{ return  symbols  }
+          ` + sign;
+
  var document =
      `Expression
   =  Sign
@@ -97,21 +137,14 @@ TwoColors =
 	  foregroundcolor: (RGB / ColorText) "," backgroundcolor: (RGB / ColorText)
          {return  {foregroundcolor:  foregroundcolor, backgroundcolor: backgroundcolor}; }
 
-RGB = hexa hexa hexa hexa hexa hexa {return text()}
-ColorText =[a-wyzA-Z]+ {return text()}
-
  
 
 Document = SignSpacer *
 
 
-Sign =  sort:Sorting ?  sign:UnSortedSign
-	{ return  { sorting: sort, sign: sign } }
-UnSortedSign = prefix:SignPrefix symbols:SymbolCoordinate * styling:Styling
-	{ return  { l: prefix.lane,
-    c: prefix.signcoordinate,
-    styling : styling,
-    symbols: symbols } }
+Sign =  sort:Sorting ?  sign:UnSortedSign styling:Styling
+	{ return  { sorting: sort, sign: sign,   styling : styling } }
+
 
 Styling = symbols: SymbolsStylings  ? sign:SignStylings ?
 	{ return { colorize:sign ? sign.colorize : null ,
@@ -130,36 +163,16 @@ SignStylings = SignStylingPrefix colorize:Colorize ? padding:Padding ? backgroun
 SymbolsStylings = SymbolStylingPrefix  symbolscolors:SymbolsColors ? symbolszoom:SymbolsZoom ?
    { return {   symbolscolors : symbolscolors , symbolszoom: symbolszoom}}
 
-SymbolCoordinate = symb:Symbol coord:Coordinate
-	{ return { k: symb, c: coord
-
-    } }
 
 
-
-Sorting = "A" symbols: Symbol *
-	{ return  symbols  }
-
-
-Symbol =
-	result: "S"[123]hexa hexa[0-5]hexa
-   {return text()}
-
-SignPrefix = lane:[BLMR] signcoordinate: Coordinate ?
-	{return { lane: lane, signcoordinate:signcoordinate}}
-
-
-Coordinate = x1:ThreeDigits CoordinateSpacer y1:ThreeDigits
-  {
-
-      return { x: x1, y : y1 };
-    }
-
-`+ numbers ;
+`+ sorting ;
 
 var exports = {};
 exports.document = document;
 exports.basics = basics;
 exports.numbers = numbers;
+exports.parts = parts;
+exports.sign = sign;
+exports.sorting = sorting;
 return exports;
 }()
