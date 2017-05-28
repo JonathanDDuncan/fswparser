@@ -1,46 +1,47 @@
 // var assert = require('assert');
 var assert = chai.assert;
 
+var parserplainsign = peg.generate(fswpeg.plainsign);
 var parsersign = peg.generate(fswpeg.sign);
 
 var parsersorting = peg.generate(fswpeg.sorting);
 var parserstyling = peg.generate(fswpeg.styling);
 
 describe('FSW', function () {
-    describe('Sign', function () {
-        it('should return qualified object', function () {
+    describe('Sign not sorted not styled', function () {
+        it('should return sign', function () {
             assert.equal(
                 `{
-  "l": "M",
-  "c": {
+  "lane": "M",
+  "coord": {
     "x": 518,
     "y": 533
   },
   "symbols": [
     {
-      "k": "S1870a",
-      "c": {
+      "key": "S1870a",
+      "coord": {
         "x": 489,
         "y": 515
       }
     },
     {
-      "k": "S18701",
-      "c": {
+      "key": "S18701",
+      "coord": {
         "x": 482,
         "y": 490
       }
     },
     {
-      "k": "S20500",
-      "c": {
+      "key": "S20500",
+      "coord": {
         "x": 508,
         "y": 496
       }
     },
     {
-      "k": "S2e734",
-      "c": {
+      "key": "S2e734",
+      "coord": {
         "x": 500,
         "y": 468
       }
@@ -49,12 +50,226 @@ describe('FSW', function () {
 }`
 
                 ,
-                JSON.stringify(parsersign.parse("M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
+                JSON.stringify(parserplainsign.parse("M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
         });
 
     });
-    describe('Sorting', function () {
-        it('should return symbol keys in array', function () {
+     describe('Sign sorted', function () {
+         it('should return sorted sign', function () {
+            assert.equal(
+                `{
+  "sorting": [
+    "S18701",
+    "S1870a",
+    "S2e734",
+    "S20500"
+  ],
+  "sign": {
+    "lane": "M",
+    "coord": {
+      "x": 518,
+      "y": 533
+    },
+    "symbols": [
+      {
+        "key": "S1870a",
+        "coord": {
+          "x": 489,
+          "y": 515
+        }
+      },
+      {
+        "key": "S18701",
+        "coord": {
+          "x": 482,
+          "y": 490
+        }
+      },
+      {
+        "key": "S20500",
+        "coord": {
+          "x": 508,
+          "y": 496
+        }
+      },
+      {
+        "key": "S2e734",
+        "coord": {
+          "x": 500,
+          "y": 468
+        }
+      }
+    ]
+  },
+  "styling": null
+}`
+
+                ,
+                JSON.stringify(parsersign.parse("AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
+        });
+
+    });
+
+      describe('Sign styled', function () {
+         it('should return styled sign', function () {
+            assert.equal(
+                `{
+  "sorting": null,
+  "sign": {
+    "lane": "M",
+    "coord": {
+      "x": 518,
+      "y": 533
+    },
+    "symbols": [
+      {
+        "key": "S1870a",
+        "coord": {
+          "x": 489,
+          "y": 515
+        }
+      },
+      {
+        "key": "S18701",
+        "coord": {
+          "x": 482,
+          "y": 490
+        }
+      },
+      {
+        "key": "S20500",
+        "coord": {
+          "x": 508,
+          "y": 496
+        }
+      },
+      {
+        "key": "S2e734",
+        "coord": {
+          "x": 500,
+          "y": 468
+        }
+      }
+    ]
+  },
+  "styling": {
+    "colorize": true,
+    "padding": 5,
+    "backgroundcolor": "blue",
+    "signcolors": {
+      "fore": "red",
+      "back": "green"
+    },
+    "symbolscolors": [
+      {
+        "index": 5,
+        "fore": "red",
+        "back": "green"
+      }
+    ],
+    "signzoom": null,
+    "symbolszoom": [
+      {
+        "index": 6,
+        "zoom": 2.3,
+        "offset": {
+          "x": 480,
+          "y": 490
+        }
+      }
+    ]
+  }
+}`
+
+                ,
+                JSON.stringify(parsersign.parse("M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468-CP05G_blue_D_red,green_-D05_red,green_Z06,2.3,480x490"), null, 2));
+        });
+
+    });
+      describe('Sign styled and sorted', function () {
+         it('should return sorted styled sign', function () {
+            assert.equal(
+                `{
+  "sorting": [
+    "S18701",
+    "S1870a",
+    "S2e734",
+    "S20500"
+  ],
+  "sign": {
+    "lane": "M",
+    "coord": {
+      "x": 518,
+      "y": 533
+    },
+    "symbols": [
+      {
+        "key": "S1870a",
+        "coord": {
+          "x": 489,
+          "y": 515
+        }
+      },
+      {
+        "key": "S18701",
+        "coord": {
+          "x": 482,
+          "y": 490
+        }
+      },
+      {
+        "key": "S20500",
+        "coord": {
+          "x": 508,
+          "y": 496
+        }
+      },
+      {
+        "key": "S2e734",
+        "coord": {
+          "x": 500,
+          "y": 468
+        }
+      }
+    ]
+  },
+  "styling": {
+    "colorize": true,
+    "padding": 5,
+    "backgroundcolor": "blue",
+    "signcolors": {
+      "fore": "red",
+      "back": "green"
+    },
+    "symbolscolors": [
+      {
+        "index": 5,
+        "fore": "red",
+        "back": "green"
+      }
+    ],
+    "signzoom": null,
+    "symbolszoom": [
+      {
+        "index": 6,
+        "zoom": 2.3,
+        "offset": {
+          "x": 480,
+          "y": 490
+        }
+      }
+    ]
+  }
+}`
+
+                ,
+                JSON.stringify(parsersign.parse("AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468-CP05G_blue_D_red,green_-D05_red,green_Z06,2.3,480x490"), null, 2));
+        });
+
+    });
+});
+ describe('Sorting', function () {
+        it('should return sorting only', function () {
             assert.equal(
                 `{
   "sorting": [
@@ -67,60 +282,8 @@ describe('FSW', function () {
                 JSON.stringify(parsersorting.parse("AS18701S1870aS2e734S20500"), null, 2));
         });
 
-        it('should return qualified object sorted', function () {
-            assert.equal(
-                `[
-  [
-    "S18701",
-    "S1870a",
-    "S2e734",
-    "S20500"
-  ],
-  {
-    "l": "M",
-    "c": {
-      "x": 518,
-      "y": 533
-    },
-    "symbols": [
-      {
-        "k": "S1870a",
-        "c": {
-          "x": 489,
-          "y": 515
-        }
-      },
-      {
-        "k": "S18701",
-        "c": {
-          "x": 482,
-          "y": 490
-        }
-      },
-      {
-        "k": "S20500",
-        "c": {
-          "x": 508,
-          "y": 496
-        }
-      },
-      {
-        "k": "S2e734",
-        "c": {
-          "x": 500,
-          "y": 468
-        }
-      }
-    ]
-  }
-]`
-
-                ,
-                JSON.stringify(parsersorting.parse("AS18701S1870aS2e734S20500M518x533S1870a489x515S18701482x490S20500508x496S2e734500x468"), null, 2));
-        });
+      
     });
-});
-
 describe('Styling', function () {
     describe('Colorize', function () {
         it('should return colorize true', function () {

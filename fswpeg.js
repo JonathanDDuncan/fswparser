@@ -45,15 +45,15 @@ ColorText =[a-wyzA-Z]+ {return text()}
 
           ` + numbers;
 
-var sign = 
+var plainsign = 
 `
 UnSortedSign = prefix:SignPrefix symbols:SymbolCoordinate * 
-	{ return  { l: prefix.lane,
-    c: prefix.signcoordinate,
+	{ return  { lane: prefix.lane,
+    coord: prefix.signcoordinate,
     symbols: symbols } }
 
 SymbolCoordinate = symb:Symbol coord:Coordinate
-	{ return { k: symb, c: coord } }
+	{ return { key: symb, coord: coord } }
        
 SignPrefix = lane:[BLMR] signcoordinate: Coordinate ?
 	{return { lane: lane, signcoordinate:signcoordinate}}
@@ -68,7 +68,7 @@ SortedSign =   sign1:(sort:Sorting ?  sign:UnSortedSign) / sortonly:Sorting
     
 Sorting = "A" symbols: Symbol *
 	{ return  symbols  }
-          ` + sign;
+          ` + plainsign;
 
 var styling = 
 `
@@ -148,6 +148,14 @@ SymbolIndex = digits: (digit digit)
 		 { return parseInt(digits.join(""), 10); }
           ` + sorting;
 
+
+ var sign =
+     `
+     SignSortedStyled =  sort:Sorting ?  sign:UnSortedSign styling:Styling
+	{ return  { sorting: sort, sign: sign,   styling : styling } }
+
+`+ styling ;
+
  var document =
      `Expression
   =  SignSortedStyled
@@ -162,17 +170,14 @@ SignSortedStyled =  sort:Sorting ?  sign:UnSortedSign styling:Styling
 	{ return  { sorting: sort, sign: sign,   styling : styling } }
 
 
-
-
-
-
-`+ styling ;
+`+ sign ;
 
 var exports = {};
 exports.document = document;
 exports.basics = basics;
 exports.numbers = numbers;
 exports.parts = parts;
+exports.plainsign = plainsign;
 exports.sign = sign;
 exports.sorting = sorting;
 exports.styling = styling;
