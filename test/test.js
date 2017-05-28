@@ -4,6 +4,7 @@ var assert = chai.assert;
 var parsersign = peg.generate(fswpeg.sign);
 
 var parsersorting = peg.generate(fswpeg.sorting);
+var parserstyling = peg.generate(fswpeg.styling);
 
 describe('FSW', function () {
     describe('Sign', function () {
@@ -120,7 +121,99 @@ describe('FSW', function () {
     });
 });
 
+describe('Styling', function () {
+     describe('Colorize', function () {
+        it('should return ', function () {
+            assert.equal(
+                ``,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
 
+        it('should return ', function () {
+            assert.equal(
+                `[]`,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+    });
+    describe('Padding', function () {
+        it('should return ', function () {
+            assert.equal(
+                ``,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+
+        it('should return ', function () {
+            assert.equal(
+                `[]`,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+    });
+        describe('Background', function () {
+        it('should return ', function () {
+            assert.equal(
+                ``,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+
+        it('should return ', function () {
+            assert.equal(
+                `[]`,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+    });
+    describe('Detail Color Sign', function () {
+        it('should return ', function () {
+            assert.equal(
+                ``,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+
+        it('should return ', function () {
+            assert.equal(
+                `[]`,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+     describe('Detail Color Symbols', function () {
+        it('should return ', function () {
+            assert.equal(
+                ``,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+
+        it('should return ', function () {
+            assert.equal(
+                `[]`,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+    });
+        describe('Zoom level Sign', function () {
+        it('should return ', function () {
+            assert.equal(
+                ``,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+
+        it('should return ', function () {
+            assert.equal(
+                `[]`,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+    });
+     describe('Zoom level Symbols', function () {
+        it('should return ', function () {
+            assert.equal(
+                ``,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+
+        it('should return ', function () {
+            assert.equal(
+                `[]`,
+                JSON.stringify(parserstyling.parse(""), null, 2));
+        });
+  });
+});
+});
 var parserparts = peg.generate(fswpeg.parts);
 
 describe('Parts', function () {

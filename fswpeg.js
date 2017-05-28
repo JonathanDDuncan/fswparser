@@ -70,12 +70,49 @@ Sorting = "A" symbols: Symbol *
 	{ return  symbols  }
           ` + sign;
 
- var document =
-     `Expression
-  =  Sign
+var styling = 
+`
+Styling = symbols: SymbolsStylings  ? sign:SignStylings ?
+	{ return { colorize:sign ? sign.colorize : null ,
+        padding:sign ? sign.padding : null ,
+        backgroundcolor:sign ? sign.backgroundcolor : null ,
+        colors : sign ? sign.colors : null,
+        symbolscolors : symbols ? symbols.symbolscolors :null,
+        signzoom :  sign ? sign.signzoom : null,
+        symbolszoom: symbols ? symbols.symbolszoom : null}}
 
-PairPrefix = "_"
-PairSuffix  = "_"
+SignStylings = SignStylingPrefix colorize:Colorize ? padding:Padding ? backgroundcolor:BackGroundColor ? colors:SignColors ? signzoom:SignZoom ?
+    { return { colorize: colorize , 
+        padding: padding, 
+        backgroundcolor: backgroundcolor, 
+        colors : colors, 
+        signzoom : signzoom}}
+
+SymbolsStylings = SymbolStylingPrefix  symbolscolors:SymbolsColors ? symbolszoom:SymbolsZoom ?
+   { return {   symbolscolors : symbolscolors, 
+       symbolszoom: symbolszoom}}
+
+
+
+SignColors =  ColorPrefix color:SymbolColor
+	{ return  {fore: color.fore,back: color.back};  }
+
+ColorizePrefix = "C"
+Colorize =
+ 	colorize:ColorizePrefix
+    { return colorize == "C"
+}
+
+PaddingPrefix = "P"
+Padding =
+	PaddingPrefix padding:Integer
+    {return padding}
+
+BackGroundColorPrefix = "G"
+BackGroundColor = BackGroundColorPrefix PairPrefix backgroundcolor: (RGB / ColorText) PairSuffix
+	{ return  backgroundcolor;  }
+
+ZoomPrefix = "Z"
 SignZoom =    ZoomPrefix zoom:Number
 	{return zoom}
 
@@ -86,46 +123,9 @@ SymbolZoom =
 ZoomPrefix index:SymbolIndex "," zoom:Number
 	{return {index : index, zoom: zoom}}
 
-ZoomPrefix = "Z"
-
-ColorizePrefix = "C"
-PaddingPrefix = "P"
-Padding =
-	PaddingPrefix padding:Integer
-    {return padding}
-
-BackGroundColorPrefix = "G"
-BackGroundColor = BackGroundColorPrefix PairPrefix backgroundcolor: (RGB / ColorText) PairSuffix
-	{ return  backgroundcolor;  }
-
-
-Colorize =
- 	colorize:ColorizePrefix
-    { return colorize == "C"
-    }
-
-SignColors =  ColorPrefix color:SymbolColor
-	{ return  {fore: color.fore,back: color.back};  }
-
+ColorPrefix = "D"
 SymbolsColors =   colors: SymbolColors *
 	{ return   colors;  }
-
-SymbolColors = ColorPrefix index:SymbolIndex color:SymbolColor
-	{ return  {index: index, fore: color.fore,back: color.back};  }
-
-SymbolIndex = digits: (digit digit)
-		 { return parseInt(digits.join(""), 10); }
-
-
-SignSpacer =
-Sign Space
-SignStylingPrefix
-	= "-"
-
-SymbolStylingPrefix
-	= "--"
-
-ColorPrefix = "D"
 
 SymbolColor =  PairPrefix twocolors:TwoColors ?  foregroundonly: (RGB / ColorText)?   PairSuffix
 		{ if (foregroundonly)
@@ -137,35 +137,39 @@ TwoColors =
 	  foregroundcolor: (RGB / ColorText) "," backgroundcolor: (RGB / ColorText)
          {return  {foregroundcolor:  foregroundcolor, backgroundcolor: backgroundcolor}; }
 
- 
+SymbolColors = ColorPrefix index:SymbolIndex color:SymbolColor
+	{ return  {index: index, fore: color.fore,back: color.back};  }
+
+SignStylingPrefix
+	= "-"
+
+SymbolStylingPrefix
+	= "--"
+PairPrefix = "_"
+PairSuffix  = "_"
+SymbolIndex = digits: (digit digit)
+		 { return parseInt(digits.join(""), 10); }
+          ` + sorting;
+
+ var document =
+     `Expression
+  =  SignSortedStyled
+
+SignSpacer =
+SignSortedStyled Space
 
 Document = SignSpacer *
 
 
-Sign =  sort:Sorting ?  sign:UnSortedSign styling:Styling
+SignSortedStyled =  sort:Sorting ?  sign:UnSortedSign styling:Styling
 	{ return  { sorting: sort, sign: sign,   styling : styling } }
 
 
-Styling = symbols: SymbolsStylings  ? sign:SignStylings ?
-	{ return { colorize:sign ? sign.colorize : null ,
-
-        padding:sign ? sign.padding : null ,
-backgroundcolor:sign ? sign.backgroundcolor : null ,
-
-    colors : sign ? sign.colors : null,
-    symbolscolors : symbols ? symbols.symbolscolors :null,
-    signzoom :  sign ? sign.signzoom : null,
-    symbolszoom: symbols ? symbols.symbolszoom : null}}
-
-SignStylings = SignStylingPrefix colorize:Colorize ? padding:Padding ? backgroundcolor:BackGroundColor ? colors:SignColors ? signzoom:SignZoom ?
-{ return { colorize:  colorize , padding: padding, backgroundcolor: backgroundcolor, colors : colors, signzoom : signzoom}}
-
-SymbolsStylings = SymbolStylingPrefix  symbolscolors:SymbolsColors ? symbolszoom:SymbolsZoom ?
-   { return {   symbolscolors : symbolscolors , symbolszoom: symbolszoom}}
 
 
 
-`+ sorting ;
+
+`+ styling ;
 
 var exports = {};
 exports.document = document;
@@ -174,5 +178,6 @@ exports.numbers = numbers;
 exports.parts = parts;
 exports.sign = sign;
 exports.sorting = sorting;
+exports.styling = styling;
 return exports;
 }()
