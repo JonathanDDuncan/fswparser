@@ -73,7 +73,7 @@ Sorting = "A" symbols: Symbol *
 var styling = 
 `
 Styling = symbols: SymbolsStylings  ? sign:SignStylings ?
-	{ return { colorize:sign ? sign.colorize : null ,
+	{ return { colorize:sign ? sign.colorize : false ,
         padding:sign ? sign.padding : null ,
         backgroundcolor:sign ? sign.backgroundcolor : null ,
         colors : sign ? sign.colors : null,
@@ -82,7 +82,7 @@ Styling = symbols: SymbolsStylings  ? sign:SignStylings ?
         symbolszoom: symbols ? symbols.symbolszoom : null}}
 
 SignStylings = SignStylingPrefix colorize:Colorize ? padding:Padding ? backgroundcolor:BackGroundColor ? colors:SignColors ? signzoom:SignZoom ?
-    { return { colorize: colorize , 
+    { return { colorize: colorize ? colorize : false    , 
         padding: padding, 
         backgroundcolor: backgroundcolor, 
         colors : colors, 

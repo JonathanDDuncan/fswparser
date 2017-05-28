@@ -123,36 +123,69 @@ describe('FSW', function () {
 
 describe('Styling', function () {
      describe('Colorize', function () {
-        it('should return ', function () {
+        it('should return colorize true', function () {
             assert.equal(
-                ``,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": true,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": null,
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-C"), null, 2));
         });
 
-        it('should return ', function () {
+        it('should return colorize false', function () {
             assert.equal(
-                `[]`,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": false,
+  "padding": null,
+  "backgroundcolor": null,
+  "colors": null,
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-"), null, 2));
         });
     });
     describe('Padding', function () {
-        it('should return ', function () {
+        it('should return padding 1', function () {
             assert.equal(
-                ``,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": false,
+  "padding": 1,
+  "backgroundcolor": null,
+  "colors": null,
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-P01"), null, 2));
         });
 
-        it('should return ', function () {
+        it('should return padding 99', function () {
             assert.equal(
-                `[]`,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                `{
+  "colorize": false,
+  "padding": 99,
+  "backgroundcolor": null,
+  "colors": null,
+  "symbolscolors": null,
+  "signzoom": null,
+  "symbolszoom": null
+}`,
+                JSON.stringify(parserstyling.parse("-P99"), null, 2));
         });
+ 
     });
         describe('Background', function () {
         it('should return ', function () {
             assert.equal(
                 ``,
-                JSON.stringify(parserstyling.parse(""), null, 2));
+                JSON.stringify(parserstyling.parse("-G_blue_"), null, 2));
         });
 
         it('should return ', function () {
